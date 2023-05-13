@@ -7,7 +7,7 @@ public class ObjectPool : MonoBehaviour
     public GameObject objectPrefab;
     public List<GameObject> activeObjectsPool = new List<GameObject>();
     public List<GameObject> reservedObjectsPool = new List<GameObject>();
-    
+
     public GameObject GetObject()
     {
         if (reservedObjectsPool.Count > 0)
@@ -20,23 +20,24 @@ public class ObjectPool : MonoBehaviour
         }
         else
         {
-            GameObject obj = Instantiate(objectPrefab);
+            GameObject obj = Instantiate(objectPrefab, transform);
+            if (obj.GetComponent<PooledObject>() == null)
+                obj.AddComponent<PooledObject>();
             obj.GetComponent<PooledObject>().Init(this);
             activeObjectsPool.Add(obj);
             obj.SetActive(true);
             return obj;
         }
     }
-    
+
     public void ReturnObject(GameObject obj)
     {
         if (activeObjectsPool.Contains(obj))
         {
             activeObjectsPool.Remove(obj);
-        } 
-        
+        }
+
         reservedObjectsPool.Add(obj);
         obj.SetActive(false);
     }
-    
 }
