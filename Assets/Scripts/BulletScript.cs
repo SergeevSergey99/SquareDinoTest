@@ -8,12 +8,14 @@ public class BulletScript : MonoBehaviour
     [SerializeField] float _speed = 10f;
     [SerializeField] int _damage = 1;
 
+    private Coroutine cor;
     public void Init(Vector3 target)
     {
         GetComponent<Rigidbody>().velocity = (target - transform.position).normalized * _speed;
         transform.LookAt(target);
-        Invoke("Deactivate", 3f);
+        cor = StartCoroutine(Deactiving());
     }
+    
 
     private void OnCollisionEnter(Collision collision)
     {
@@ -24,12 +26,14 @@ public class BulletScript : MonoBehaviour
             if (enemy != null)
                 enemy.GetDamage(_damage);
             
-            Deactivate();
         }
+        StopCoroutine(cor);
+        gameObject.SetActive(false);
     }
     
-    void Deactivate()
+    IEnumerator Deactiving()
     {
+        yield return new WaitForSeconds(3f);
         gameObject.SetActive(false);
     }
 }
