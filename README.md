@@ -1,3 +1,5 @@
+
+![alt text](https://github.com/SergeevSergey99/SquareDinoTest/blob/master/preview.png)
 # Описание
 Реализовать игровую сцену с механикой передвижения и стрельбы.
 # Технические требования
